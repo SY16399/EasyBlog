@@ -5,6 +5,8 @@ import org.example.pojo.MyArticle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ArticleService {
     @Autowired
@@ -17,5 +19,17 @@ public class ArticleService {
         myArticle.setCreated(nowUnixTime);
         myArticle.setModified(nowUnixTime);
         return myArticleMapper.add(myArticle);
+    }
+    //获取文章列表 不分页
+    public List<MyArticle> findAll() {
+        return myArticleMapper.findAll();
+    }
+    //获取文章列表 分页
+    public List<MyArticle> getListByPageNum(int pageNum) {
+        if (pageNum <= 0){
+            pageNum = 1;
+        }
+        int offset = (pageNum-1)*30;
+        return myArticleMapper.getListByPageNum(offset);
     }
 }
