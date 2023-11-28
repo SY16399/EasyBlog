@@ -36,4 +36,8 @@ public class ArticleService {
     public MyArticle detail(int id) {
         return myArticleMapper.detail(id);
     }
+    //修改文章
+    public boolean update(MyArticle myArticle){
+        return myArticleMapper.update(myArticle);
+    }
 }

@@ -68,4 +68,25 @@ public class ArticleController {
         JsonResultObject result = new JsonResultObject("200","get   articles","","",article);
         return result;
     }
+
+    //修改文章
+    @PutMapping("/article")
+    @UserLoginToken
+    public JsonResultObject update(@Validated @RequestBody MyArticle myArticle,BindingResult bindingResult){
+        if (bindingResult.hasErrors()){
+            return new JsonResultObject<>("400","修改文章失败！",bindingResult.getFieldError().getDefaultMessage(),"40002",null);
+        }else {
+            if (myArticle.getId()==0){
+                return new JsonResultObject("400","文章修改失败！","no Id","40003",null);
+            }else {
+                boolean updateResult = articleService.update(myArticle);
+                if (updateResult){
+                    return new JsonResultObject<>("200","修改文章成功","","",null);
+                }else {
+                    ErrorEnum enum1 = ErrorEnum.valueOf(ErrorEnum.class,"BAD_PARAM");
+                    return new JsonResultObject("200","修改文章失败", enum1.getErrorMsg(), enum1.getErrorCode(), null);
+                }
+            }
+        }
+    }
 }

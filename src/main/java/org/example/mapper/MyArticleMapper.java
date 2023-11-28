@@ -3,6 +3,7 @@ package org.example.mapper;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.example.pojo.MyArticle;
 
 import java.util.List;
@@ -23,4 +24,8 @@ public interface MyArticleMapper {
     //获取文章详情
     @Select("select * from my_articles where id = #{id}")
     MyArticle detail(int id);
+
+    //更新文章
+    @Update("update my_articles set author= #{author},content=#{content},category_id=#{categoryId},tages = #{tags},modified=#{modifeid} where id =#{id}")
+    public boolean update(MyArticle myArticle);
 }
