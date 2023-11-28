@@ -32,5 +32,12 @@ public class ArticleController {
         }catch (Exception e){
             return new JsonResultObject<>("400","发布最新文章失败！", e.getMessage(), "Bad Params",null);
         }
+        /*boolean addResult = articleService.add(myArticle);
+        if (addResult){
+            return new JsonResultObject("200","新发布文章成功","","",null);
+        }else {
+            ErrorEnum enum1 = ErrorEnum.valueOf(ErrorEnum.class,"BAD_INPUT_PARAM");
+            return new JsonResultObject("200","新发布文章失败",enum1.getErrorMsg(), enum1.getErrorCode(), null);
+        }*/
     }
 }
