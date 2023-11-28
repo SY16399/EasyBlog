@@ -32,4 +32,8 @@ public class ArticleService {
         int offset = (pageNum-1)*30;
         return myArticleMapper.getListByPageNum(offset);
     }
+    //文章详情
+    public MyArticle detail(int id) {
+        return myArticleMapper.detail(id);
+    }
 }

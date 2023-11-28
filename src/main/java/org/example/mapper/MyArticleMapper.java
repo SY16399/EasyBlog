@@ -20,4 +20,7 @@ public interface MyArticleMapper {
     //查询文章列表 分页
     @Select("select * from my_articles where is_deleted = 1 limit #{offset},30")
     List<MyArticle> getListByPageNum(int offset);
+    //获取文章详情
+    @Select("select * from my_articles where id = #{id}")
+    MyArticle detail(int id);
 }

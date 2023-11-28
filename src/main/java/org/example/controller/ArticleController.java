@@ -61,4 +61,11 @@ public class ArticleController {
         return result;
 
     }
+    //获取文章详情的接口
+    @RequestMapping("/article/{id}")
+    public JsonResultObject detail(@PathVariable int id){
+        MyArticle article = articleService.detail(id);
+        JsonResultObject result = new JsonResultObject("200","get   articles","","",article);
+        return result;
+    }
 }
