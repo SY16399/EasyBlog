@@ -72,13 +72,15 @@ public class AuthInterceptor implements HandlerInterceptor {
                 try {
                     //验证JWT 令牌
                     JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(myUser.getPassword()+"MText!76&sQ^")).build();
+                    //可以验证过期时间
                     jwtVerifier.verify(token);
                     //设置当前登录用户
                     LoginUser loginUser = new LoginUser();
                     loginUser.setId(userIdt);
                     UserContext.setUser(loginUser);
                 }catch (JWTVerificationException e){
-                    throw new BusinessException("4002","invalid token!");
+                    System.out.println(e.getMessage());
+                    throw new BusinessException("4002",e.getMessage());
                 }
             }
         }

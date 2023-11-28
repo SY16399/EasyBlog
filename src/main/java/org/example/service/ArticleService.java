@@ -38,6 +38,14 @@ public class ArticleService {
     }
     //修改文章
     public boolean update(MyArticle myArticle){
+        long unixTime = System.currentTimeMillis() / 1000L;
+        int nowUnixTime = (int) unixTime;
+        myArticle.setModified(nowUnixTime);
         return myArticleMapper.update(myArticle);
+    }
+
+    //删除
+    public boolean delet(int id){
+        return myArticleMapper.delete(id);
     }
 }

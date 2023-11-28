@@ -26,6 +26,10 @@ public interface MyArticleMapper {
     MyArticle detail(int id);
 
     //更新文章
-    @Update("update my_articles set author= #{author},content=#{content},category_id=#{categoryId},tages = #{tags},modified=#{modifeid} where id =#{id}")
+    @Update("update my_articles set author= #{author},content=#{content},category_id=#{categoryId},tages = #{tags},modified=#{modified} where id =#{id}")
     public boolean update(MyArticle myArticle);
+
+    //删除文章 软删除
+    @Update("update my_articles set is_deleted = 2 where id = #{id}")
+    public boolean delete(int id);
 }
