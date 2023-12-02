@@ -10,6 +10,7 @@ import org.example.common.BusinessException;
 import org.example.pojo.MyUser;
 import org.example.service.UserService;
 import org.example.tools.LoginUser;
+import org.example.tools.RedisUntil;
 import org.example.tools.UserContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -24,6 +25,8 @@ import java.lang.reflect.Method;
 public class AuthInterceptor implements HandlerInterceptor {
     @Autowired
     UserService userService;
+    @Autowired
+    RedisUntil redisUntil;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -44,6 +47,19 @@ public class AuthInterceptor implements HandlerInterceptor {
         if (method.isAnnotationPresent(UserLoginToken.class)) {
             UserLoginToken userLoginToken = method.getAnnotation(UserLoginToken.class);
             if (userLoginToken.requried()) {
+                //如果没有，先尝试从 redis 中获取
+                String tokenKey = null;
+                if (token == null){
+                    String username = request.getHeader("username");
+                    tokenKey = "user_id:"+username;
+                    boolean hasExisted = redisUntil.hasKey(tokenKey);
+                    if (hasExisted){
+                        token = redisUntil.get(tokenKey);
+                    }else {
+                        System.out.println("exist or not:" + hasExisted);
+                    }
+
+                }
                 //判空
                 if (token == null) {
                     throw new BusinessException("4001", "no token");
@@ -57,12 +73,14 @@ public class AuthInterceptor implements HandlerInterceptor {
                 }
 
                 // Check the expire of token.
-//                String tokenKey = userId + ":" + token;
-//                boolean hasExisted = redisUtil.hasKey(tokenKey);
-//                System.out.println("exist or not:" + hasExisted);
-//                if (hasExisted == false) {
-//                    throw new BusinessException("4005", "token expired!");
-//                }
+                /*String tokenKey = userId + ":" + token;
+                boolean hasExisted = redisUntil.hasKey(tokenKey);
+                System.out.println("exist or not:" + hasExisted);
+                if (!hasExisted) {
+                    throw new BusinessException("4005", "token expired!");
+                }*/
+
+
                 int userIdt = Integer.parseInt(userId);
                 System.out.println("userId is "+userIdt);
                 MyUser myUser = userService.findUserById(userIdt);

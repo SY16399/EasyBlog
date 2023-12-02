@@ -4,6 +4,7 @@ import org.example.mapper.MyUserMapper;
 import org.example.tools.ErrorEnum;
 import org.example.tools.JsonResultObject;
 import org.example.tools.LoginUser;
+import org.example.tools.RedisUntil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Service;
 public class LoginService {
     @Autowired
     MyUserMapper myUserMapper;
+    @Autowired
+    RedisUntil redisUntil;
     public JsonResultObject doLogin(LoginUser loginUser){
         JsonResultObject result = new JsonResultObject();
         ErrorEnum enum1 = ErrorEnum.valueOf(ErrorEnum.class,"PASSWORD_OR_USERNAME_WRONG");
