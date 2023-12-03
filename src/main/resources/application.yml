@@ -13,6 +13,11 @@ spring:
         max-wait: 3000
         min-idle: 2
     timeout: 5000
+  data:
+    mongodb:
+      authentication-database: test
+      host: 127.0.0.1
+      port: 27017
   datasource:
     url: jdbc:mysql://localhost:3306/my_blogs?useTimezone=true&serverTimezone=UTC
     username: root
